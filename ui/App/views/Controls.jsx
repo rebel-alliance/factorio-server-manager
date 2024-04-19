@@ -89,7 +89,7 @@ const Controls = ({serverStatus}) => {
                                 <Input
                                     type="number"
                                     min={1}
-                                    defaultValue={"34197"}
+                                    defaultValue={"13337"}
                                     register={register('port',{required: true})}
                                 />
                                 <Error error={errors.port} message="Port is required"/>

@@ -265,7 +265,7 @@ func (server *Server) Run() error {
 	} else {
 		args = append(args, "--start-server", filepath.Join(config.FactorioSavesDir, server.Savefile))
 	}
-	
+
 	// Write chat log to a different file if requested (if not it will be mixed-in with the default logfile)
 	if config.ChatLogFile != "" {
 		args = append(args, "--console-log", config.ChatLogFile)
@@ -278,18 +278,14 @@ func (server *Server) Run() error {
 		log.Println("Starting server with command: ", config.FactorioBinary, args)
 		server.Cmd = exec.Command(config.FactorioBinary, args...)
 	}
-	
+
 	server.StdOut, err = server.Cmd.StdoutPipe()
 	if err != nil {
 		log.Printf("Error opening stdout pipe: %s", err)
 		return err
 	}
 
-	server.StdIn, err = server.Cmd.StdinPipe()
-	if err != nil {
-		log.Printf("Error opening stdin pipe: %s", err)
-		return err
-	}
+	server.Cmd.Stdin = os.Stdin
 
 	server.StdErr, err = server.Cmd.StderrPipe()
 	if err != nil {
